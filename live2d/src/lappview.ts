@@ -224,42 +224,6 @@ export class LAppView {
             initBackGroundTexture
         );
 
-        textureManager.createTextureFromPngFile(
-            resourcesPath + 'cat_model_miao_pro/mousebg.png',
-            false,
-            (textureInfo: TextureInfo): void => {
-                const x: number = 0;
-                const y: number = 0;
-
-                const fwidth = 1200;
-                const fheight = 1200;
-                //配置纹理图像
-                this._back_zhuozi = new LAppSprite(x, y, fwidth, fheight, textureInfo.id);
-                this._back_zhuozi._scale.y = -0.92;
-                this._back_zhuozi._scale.x = 0.92;
-                this._back_zhuozi.position(74, 16);
-
-            }
-        );
-        textureManager.createTextureFromPngFile(
-            resourcesPath + 'cat_model_miao_pro/hand/1.png',
-            false,
-            (textureInfo: TextureInfo): void => {
-                const x: number = 0;
-                const y: number = 0;
-
-                const fwidth = 1200;
-                const fheight = 1200;
-                //配置纹理图像
-                this._hands = new LAppSprite(x, y, fwidth, fheight, textureInfo.id);
-                this._hands._scale.y = -1;
-                this._hands._scale.x = 1;
-                this._hands.position(0, 0);
-                this.initBindDebugContr(this._hands)
-
-            }
-        );
-
         //歯車画像初期化
         imageName = LAppDefine.GearImageName;
         const initGearTexture = (textureInfo: TextureInfo): void => {

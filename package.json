@@ -5,7 +5,7 @@
   "main": "app/main/main_remould.js",
   "scripts": {
     "release": "standard-version",
-    "start": "env -u ELECTRON_RUN_AS_NODE ./node_modules/.bin/electron . ",
+    "start": "node scripts/start-electron.js",
     "run": "echo 执行",
     "postinstall": "patch-package #模块名(imap);electron-builder install-app-deps;",
     "build-mac": "electron-builder --mac dmg -c.electronVersion=12.2.3",
@@ -21,8 +21,8 @@
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
-  "dependencies": {
-    "bindings": "^1.5.0",
+  "dependencies": {},
+  "optionalDependencies": {
     "iohook": "^0.9.3"
   },
   "devDependencies": {

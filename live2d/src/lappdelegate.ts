@@ -167,19 +167,8 @@ export class LAppDelegate {
      *  执行处理
      */
     public run(): void {
-        if (DebugLogEnable) {
-            // @ts-ignore
-            var stats = new Stats();
-            stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-            document.body.appendChild(stats.dom);
-        }
-
-
         // 主循环
         const loop = (): void => {
-            if (DebugLogEnable) {
-                stats.begin();
-            }
             // インスタンスの有無の確認
             if (s_instance == null) {
                 return;
@@ -209,9 +198,6 @@ export class LAppDelegate {
             // 地图更新
             this._view.render();
 
-            if (DebugLogEnable) {
-                stats.end();
-            }
             // Recursive call loop
             requestAnimationFrame(loop);
         };

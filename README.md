@@ -48,18 +48,19 @@
 
 > 开发环境准备
 
-1. 在项目根目录执行一次依赖安装，跳过原生模块编译：
+1. 在项目根目录安装依赖：
    ```bash
-   yarn install --mode=skip-build
+   npm install
    ```
-2. 进入 `live2d` 子工程安装依赖并保持同样配置：
+   `iohook` 作为可选依赖，若编译失败会自动跳过。
+2. 进入 `live2d` 子工程安装依赖：
    ```bash
    cd live2d
-   yarn install --mode=skip-build
+   npm install
    ```
 3. 首次或更新后需要重新打包 Live2D bundle：
    ```bash
-   NODE_OPTIONS=--openssl-legacy-provider yarn run build
+   NODE_OPTIONS=--openssl-legacy-provider npm run build
    ```
    > 若已在 `live2d/dist/bundle.js` 中生成过，可按需跳过这一步。
 
@@ -67,7 +68,7 @@
 
 在项目根目录运行：
 ```bash
-yarn start
+npm run start
 ```
 默认会启动 Electron 窗口，展示 Live2D 桌宠。若终端输出 `iohook unavailable`，说明未启用全局鼠标追踪，可忽略。
 
@@ -76,7 +77,7 @@ yarn start
 如果需要实时调试 Live2D TS 源码，可在 `live2d` 目录启动 DevServer：
 ```bash
 cd live2d
-NODE_OPTIONS=--openssl-legacy-provider yarn run start
+NODE_OPTIONS=--openssl-legacy-provider npm run start
 ```
 Webpack 将监听源码并重新输出 `dist/bundle.js`。
 
@@ -103,10 +104,10 @@ Webpack 将监听源码并重新输出 `dist/bundle.js`。
 
 - macOS DMG：
   ```bash
-  yarn build-mac
+  npm run build-mac
   ```
-  产物会生成在 `dist/`，需要 Xcode Command Line Tools 与 codesign 相关环境。若需要持续集成，可使用 `yarn build-mac-p` 强制发布。
-- 重新构建 `iohook` 等原生依赖时，可使用 `yarn build_iohook`（需具备匹配的 Node/Electron Headers 环境）。
+  产物会生成在 `dist/`，需要 Xcode Command Line Tools 与 codesign 相关环境。若需要持续集成，可使用 `npm run build-mac-p` 强制发布。
+- 重新构建 `iohook` 等原生依赖时，可使用 `npm run build_iohook`（需具备匹配的 Node/Electron Headers 环境）。
 
 ## fork前需要技术栈
 
