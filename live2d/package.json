@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "start": "find ./dist -type f -name \"*hot*\"| xargs rm | webpack-dev-server --progress",
-    "build": "webpack -d --hide-modules",
-    "build:prod": "webpack -p --hide-modules",
+    "start": "find ./dist -type f -name \"*hot*\"| xargs rm | node --openssl-legacy-provider ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress",
+    "build": "node --openssl-legacy-provider ./node_modules/webpack/bin/webpack.js -d --hide-modules",
+    "build:prod": "node --openssl-legacy-provider ./node_modules/webpack/bin/webpack.js -p --hide-modules",
     "test": "tsc --noEmit",
     "watch": "tsc -w",
     "lint": "eslint src -f codeframe --ext .ts",
