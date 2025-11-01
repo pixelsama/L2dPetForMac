@@ -90,6 +90,10 @@ export class LAppDelegate {
 
         canvas.style.width = canvas.width + 'px';
         canvas.style.height = canvas.height + 'px';
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0px';
+        canvas.style.left = '0px';
+        canvas.style.zIndex = '1';
 
         canvas.width = canvas.width * scale;
         canvas.height = canvas.height * scale;
