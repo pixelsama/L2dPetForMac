@@ -411,27 +411,24 @@ export class LAppModel extends CubismUserModel {
         );
         texturePath = this._modelHomeDir + texturePath;
 
-        // 获取缓存数据 todo 改成异步加载 启动应用预加载模型
-        LAppLive2DManager.getInstance().cachedFile(texturePath,function (){
-          // 负载完成时调用的回叫函数
-          const onLoad = (textureInfo: TextureInfo): void => {
-            this.getRenderer().bindTexture(modelTextureNumber, textureInfo.id);
+        // 负载完成时调用的回叫函数
+        const onLoad = (textureInfo: TextureInfo): void => {
+          this.getRenderer().bindTexture(modelTextureNumber, textureInfo.id);
 
-            this._textureCount++;
+          this._textureCount++;
 
-            if (this._textureCount >= textureCount) {
-              // 加载完成
-              this._state = LoadStep.CompleteSetup;
-              lAppDelegateEvent.modelCompleteSetup();
-            }
-          };
+          if (this._textureCount >= textureCount) {
+            // 加载完成
+            this._state = LoadStep.CompleteSetup;
+            lAppDelegateEvent.modelCompleteSetup();
+          }
+        };
 
-          // 读入
-          LAppDelegate.getInstance()
-              .getTextureManager()
-              .createTextureFromPngFile(texturePath, usePremultiply, onLoad);
-          this.getRenderer().setIsPremultipliedAlpha(usePremultiply);
-        }.bind(this))
+        // 读入
+        LAppDelegate.getInstance()
+            .getTextureManager()
+            .createTextureFromPngFile(texturePath, usePremultiply, onLoad);
+        this.getRenderer().setIsPremultipliedAlpha(usePremultiply);
       }
 
       this._state = LoadStep.WaitLoadTexture;

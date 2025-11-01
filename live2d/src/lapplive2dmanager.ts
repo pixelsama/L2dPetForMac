@@ -35,7 +35,6 @@ export let s_instance: LAppLive2DManager = null;
 export class LAppLive2DManager {
     public click_hit:Function = null;
     public move_hit:Function = null;
-    public cache_imgs = new Map;
 
     /**
      * 获取管理对象ID
@@ -257,18 +256,6 @@ export class LAppLive2DManager {
         var url = window.URL.createObjectURL(blob);
         var worker = new Worker(url);
         return worker;
-    }
-    public cachedFile(file,call){
-        fetch(file).then(response => {
-            response.blob().then(blob => {
-                createImageBitmap(blob).then(img => {
-                    // img 即是一个 ImageBitmap 实例
-                    this.cache_imgs.set(file,img);
-                    console.log('缓存成功')
-                    call(img)
-                });
-            });
-        });
     }
 
     /**
