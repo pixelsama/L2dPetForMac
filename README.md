@@ -30,23 +30,11 @@
 
 ## 主要功能
 
-1. 窗口置顶 
-2. 窗口透明 [透明无边框](https://github.com/LikeNeko/L2dPetForMac/blob/remould/app/main/WindowsManager.js#L22)
-3. `live2d`的透明区域点击穿透
-4. 窗口在dock层显示 [源码在这里](https://github.com/LikeNeko/L2dPetForMac/blob/remould/panel/functions_mac.cc#L78)
-9. `js` 与 `ts` 打包后的 `js` 代码通信问题 [主要通过window通信](https://github.com/LikeNeko/L2dPetForMac/blob/remould/live2d/src/main.ts#L17)
-10. `node-imap` `mail-listener5` 邮件监听，随时获取最新邮件信息
-13. `Volume.js` 声音控制
-14. 谷歌浏览器历史记录实时获取-重构为插件模式
-15. `sqlite3`加入为了读取Chrome的sqlite
-16. 引入`openBES`弹幕系统
-18. 拖动移动位置
-
-待重构:
-1. sqlite 封装
-2. mail-listener5 会报Buffer 
-4. chrome 通过插件注入 live2d模型
-5. `opencv-node` 准备接入人脸扫描，期望达到类似`faceicg` 的效果,`face-api`可以研究还是有些问题需要解决[x]
+1. 窗口置顶与透明无边框展示
+2. 加载与展示 Live2D 模型，支持基础动作播放
+3. 切换不同 Live2D 模型场景
+4. 桌宠位置拖拽与全局鼠标联动
+5. 快捷键控制桌宠显示/隐藏与调试工具切换
 ## 项目开始
 
 ### 本项目食用方法
@@ -75,19 +63,6 @@
 > Dock栏级别的显示
 
 ![](https://raw.githubusercontent.com/LikeNeko/L2dPetForMac/master/images/2020-07-07-020929.jpeg)
-
-> 邮件获取截图
-
-![图片](https://raw.githubusercontent.com/LikeNeko/L2dPetForMac/master/images/2020-07-09-132033.jpeg)
-
-> 监听Chrome浏览截图
-
-![](https://raw.githubusercontent.com/LikeNeko/L2dPetForMac/master/images/2020-07-20-030601.png)
-
-
-> 弹幕功能
-
-![](https://raw.githubusercontent.com/LikeNeko/L2dPetForMac/master/images/2020-07-23-114246.png)
 
 > 左边是model模型，右边是model3模型 ps:实验性测试,结论是ok的，就是支持live2d可以加载不同版本的模型
 

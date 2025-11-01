@@ -1,202 +1,84 @@
 <!DOCTYPE html>
-<!--suppress BadExpressionStatementJS -->
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport">
-    <title>www</title>
-    <style>
-        #uiContainer {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 3;
-            font-family: monospace;
-            pointer-events: none;
-
-            text-shadow:
-                    -1px -1px 0 #FFF,
-                    1px -1px 0 #FFF,
-                    -1px 1px 0 #FFF,
-                    1px 1px 0 #FFF;
-        }
-        #ui {
-            opacity: 0.8;
-        }
-        #ui>div {
-            pointer-events: none;
-        }
-        #ui input,
-        #ui label,
-        #ui select,
-        #ui option,
-        #ui canvas {
-            pointer-events: auto;
-        }
-
-        .gman-slider-label, .gman-widget-label, .gman-checkbox-label {
-            font-size: medium;
-            min-width: 10em;
-            text-align: right;
-        }
-        .gman-checkbox-label {
-            pointer-events: auto;
-        }
-        .gman-widget-value {
-            float: right;
-            font-size: medium;
-            order: 1;
-            min-width: 3em;
-        }
-
-        .gman-slider-upper {
-            height: 1.5em;
-        }
-        .gman-slider-outer, .gman-widget-outer {
-            float: right;
-            display: flex;
-            align-items: center;
-            height: 1.7em;
-        }
-        .gman-widget-slider, .gman-widget-checkbox, .gman-widget-select {
-            opacity: 0.5;
-            font-size: large;
-            margin-left: .3em;
-            margin-right: .3em;
-        }
-        .gman-widget-select {
-            font-size: small;
-        }
-        .gman-widget-slider {
-            min-width: 120px;
-        }
-
-
-
-
-        #ui #rotation>canvas {
-            background-color: rgba(255, 255, 255, 0.6);
-        }
-        #ui {
-            width: 200px;
-        }
-
-        @media (max-width: 390px) {
-            pre {
-                font-size: xx-small !important;
-                max-width: 300px !important;
-            }
-
-            #uiContainer {
-                top: 120px;
-            }
-
-        }
-
-        @media (prefers-color-scheme: dark) {
-            #ui .ui-dark-support {
-                color: white;
-                text-shadow:
-                        -1px -1px 0 #000,
-                        1px -1px 0 #000,
-                        -1px 1px 0 #000,
-                        1px 1px 0 #000;
-            }
-        }
-
-    </style>
+    <title>Live2D Pet</title>
     <style>
         html, body {
             margin: 0;
-            /*pointer-events: none;*/
+            background: transparent;
+            overflow: hidden;
         }
 
-        #buttons {
+        #app {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
             display: flex;
-            position: absolute;
-            /*display: flex;*/
-            width: 80px;
-            text-align: center;
-            z-index: 99999;
-            height: auto;
             flex-direction: column;
-            transform: translate3d(0, 0, 0)
-        }
-
-        #debug_info {
-            display: block;
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-        }
-
-        li {
-            list-style-type: none;
-        }
-
-        ul, li {
-            margin: 0;
-            padding: 0;
-            text-align: right;
-            font-size: 10px;
-            color: violet
+            width: 80px;
+            gap: 6px;
+            transform: translate3d(0, 0, 0);
         }
 
         .button {
             -webkit-user-select: none;
-            width: auto;
-            height: auto;
-            color: red;
-            /*background: #10bbf1;*/
-            border: 1px solid #1075f1;
-            font-weight: 500;
-            font-size: 10px;
-            font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            padding: 2px 10px;
-            margin: 1px 0px;
-            transition: color 0.1s linear, background-color 0.1s linear, border-color 0.1s linear;
-            -moz-border-radius: 5px;
-            -webkit-border-radius: 5px;
+            cursor: pointer;
+            padding: 4px 10px;
+            font-size: 12px;
+            text-align: center;
             border-radius: 5px;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+            border: 1px solid rgba(64, 201, 244, 0.8);
+            color: #ff5050;
+            background: rgba(64, 201, 244, 0.1);
+            transition: background-color 0.1s ease, color 0.1s ease, border-color 0.1s ease;
         }
 
         .button:hover {
-            background: rgba(64, 201, 244, 0.5);
-            border-color: #40c9f4;
+            background: rgba(64, 201, 244, 0.35);
+            border-color: rgba(64, 201, 244, 0.9);
+            color: #ffffff;
         }
 
-        #danmu_div {
+        #move {
+            cursor: move;
+        }
+
+        #wuli {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             pointer-events: none;
         }
 
-    </style>
-    <style>
-        /*! 首页加载动画 */
         .think-page-loader {
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            z-index: 9999999;
-            position: fixed;
+            z-index: 9999;
             text-align: center;
-            background-color: rgba(187, 187, 187, 0.68);
+            background-color: rgba(187, 187, 187, 0.38);
         }
 
         .loader {
             top: 50%;
+            left: 50%;
             width: 50px;
             height: 50px;
-            margin: -35px 0 0 -35px;
-            z-index: 999999;
-            display: inline-block;
-            position: fixed;
+            position: absolute;
+            margin: -25px 0 0 -25px;
             background-color: rgba(187, 187, 187, 0.0);
         }
 
@@ -225,25 +107,6 @@
             animation: loading .5s linear infinite;
         }
 
-        @-webkit-keyframes loading {
-            17% {
-                border-bottom-right-radius: 3px;
-            }
-            25% {
-                transform: translateY(9px) rotate(22.5deg);
-            }
-            50% {
-                transform: translateY(18px) scale(1, 0.9) rotate(45deg);
-                border-bottom-right-radius: 40px;
-            }
-            75% {
-                transform: translateY(9px) rotate(67.5deg);
-            }
-            100% {
-                transform: translateY(0) rotate(90deg);
-            }
-        }
-
         @keyframes loading {
             17% {
                 border-bottom-right-radius: 3px;
@@ -252,24 +115,14 @@
                 transform: translateY(9px) rotate(22.5deg);
             }
             50% {
-                border-bottom-right-radius: 40px;
                 transform: translateY(18px) scale(1, 0.9) rotate(45deg);
+                border-bottom-right-radius: 40px;
             }
             75% {
                 transform: translateY(9px) rotate(67.5deg);
             }
             100% {
                 transform: translateY(0) rotate(90deg);
-            }
-        }
-
-        @-webkit-keyframes shadow {
-            0%,
-            100% {
-                transform: scale(1, 1);
-            }
-            50% {
-                transform: scale(1.5, 1);
             }
         }
 
@@ -285,270 +138,100 @@
     </style>
 </head>
 <body>
-<div id="uiContainer">
-    <div id="ui">
-        <div id="x"></div>
-        <div id="y"></div>
-        <div id="angle"></div>
-        <div id="scaleX"></div>
-        <div id="scaleY"></div>
-        <div id="origin_x"></div>
-        <div id="origin_y"></div>
-    </div>
-</div>
-<div id="wuli" style="position: absolute;top: 0;left: 0; pointer-events: none;"></div>
+<div id="wuli"></div>
 <div id="app">
     <div class="think-page-loader" v-show="loading">
         <div class="loader"></div>
     </div>
-    <div id="buttons">
-        <div v-on:click="mtn_run" class="button">动作</div>
-        <div v-on:click="next_scene" class="button ">换模</div>
-        <div v-on:click="model_scale" class="button">缩放</div>
-        <div v-on:click="text_copy" class="button">复制</div>
-        <div v-on:click="danmu" class="button">弹幕</div>
+    <div id="controls">
+        <div v-on:click="runMotion" class="button">动作</div>
+        <div v-on:click="nextModel" class="button">换模</div>
+        <div v-on:click="toggleScale" class="button">缩放</div>
         <div id="move" class="button">移动</div>
     </div>
-
-    <ul id="debug_info" v-on:mouseenter="debug_info_move(true)" v-on:mouseout="debug_info_move(false)">
-        <li class="cpu">{{cpu}}</li>
-        <li class="electron">ele:{{electron_version}}</li>
-        <li class="abi">abi:{{abi}}</li>
-        <li class="node">node:{{node}}</li>
-        <li class="chrome">chrome:{{chrome}}</li>
-    </ul>
-    <div id="danmu_div"></div>
-    <audio id="my_audio"></audio>
 </div>
 </body>
 
 <script src="https://webglfundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>
 <script src="../../../live2d/Core/live2dcubismcore.4.1.0.min.js"></script>
-<script src="../js/stats.js"></script>
 <script src="../../../live2d/dist/bundle.js"></script>
 <script src="../js/vue.global.js"></script>
 <script src="../js/Utils.js"></script>
 <script>window.$ = window.jQuery = require('../js/jq');</script>
-<script src="../js/tip.js"></script>
-
 <script>
-    // 1. 设置当前模型的part显示隐藏 live2d.getModel(0).getModel().setPartOpacityByIndex(16,0)
-    // 2. 设置当前模型的param live2d.getModel(0).getModel()._savedParameters 这个对象里都是改完立即生效的
+    window.live2d;
+    window.live2d_onload;
 
-    //live2d.getModel(0).getModel()._savedParameters._ptr[7] = 1 bakaneko-左手隐藏
-    /**
-     * @type LAppLive2DManager
-     */
-    window.live2d
-    /**
-     * @type function
-     */
-    window.live2d_onload
-
-    // 获取app的配置项
-    const {ipcRenderer, clipboard} = require('electron')
+    const {ipcRenderer} = require('electron');
 
     class Index {
         constructor() {
-            this.initStore();
-            this.initLive2d();
             this.initVue();
+            this.initLive2d();
         }
 
-        /**
-         * 初始化来自main的配置
-         */
-        initStore() {
-            class Store {
-                get(name, def = undefined) {
-                    return ipcRenderer.sendSync('store-get', {key: name, def: def})
-                }
-
-                set(name, val) {
-                    return ipcRenderer.sendSync('store-set', {key: name, value: val})
-                }
-            }
-
-            window.store = new Store();
+        initLive2d() {
+            live2d_onload({
+                loadModelComplete: () => {
+                    this.onModelReady();
+                },
+            })
         }
 
-        /**
-         * 加载模型相关的操作
-         */
-        loadModel() {
-            console.log('执行成功', 'load');
-            let that = this
-            live2d._viewMatrix.scale(0.8, 0.8)
-            // live2d.getModel(0).startRandomMotion("TapBody", 3);
-            ipcRenderer.on('show_msg', (event, arg) => {
-                console.log("show_msg", arg)
-                if (arg.msg){
-                    Utils.msg(arg.msg)
-                }
-            });
-            // 监听窗口外move
+        onModelReady() {
+            live2d._viewMatrix.scale(0.8, 0.8);
             ipcRenderer.on('my_on_drag', (event, arg) => {
                 const live2DManager = live2d;
-                // 不知道为什么这么算就行，但他就可以了，跟着屏幕中心看
-                // 点击位置/屏幕x*2-1
                 let x = arg.screenX / screen.width * 2 - 1;
-                // 点击位置/屏幕y*2-1
                 let y = arg.screenY / screen.height * 2 - 1;
 
                 live2DManager.onDrag(x, -y);
-                // live2d.getModel(0).getModel()._savedParameters._ptr[3] = x*30;
-                // live2d.getModel(0).getModel()._savedParameters._ptr[4] = -y*30;
-            })
-            // 优化了帧率问题
-            live2d.move_hit = function (str) {
-                if (str.indexOf('tail') === 0) {
-                    Utils.msg('摸尾巴')
-                }
-                that.v_proxy.is_click_hit = str != '';
-            }
-
-            live2d.click_hit = function (str) {
-                console.log(str)
-                // ipcRenderer.sendSync(RPC.focus)
-            }
-            // live2d.getModel(0).startMotion('TapBody', 1, 3, function () {
-            //     log('初始动画执行完成', 'nload')
-            // });
+            });
+            Utils.drag_move('#move');
+            Utils.unScroll();
+            this.v_proxy.loading = false;
         }
 
-        /**
-         * 初始化live2d相关操作
-         */
-        initLive2d() {
-            let that = this;
-            // 封装的live2d的加载方法，因为live2d的模型一般加载很慢，该方法触发加载
-            live2d_onload({
-                loadModelComplete() {
-                    that.loadModel();
-                    Utils.drag_move('#move');
-                    Utils.unScroll()
-                    that.v_proxy.loading = false;
-                },
-            })
-        }
-
-        /**
-         * 初始化vue相关操作
-         * @returns {{node: number, chrome: number, curr_scale: number, abi: number, cpu: number, electron_version: number}}
-         */
         initVue() {
-            const VueData = {
+            const vm = Vue.createApp({
                 data() {
                     return {
                         loading: true,
-                        is_click_hit: false,
-                        electron_version: 0,
-                        abi: 0,
-                        node: 0,
-                        chrome: 0,
-                        cpu: 0,
-                        curr_scale: 0.1,
+                        curr_scale: 0.8,
                     }
-                },
-                created() {
-                    this.$watch('is_click_hit', function (newValue, oldValue) {
-                        if (newValue == false) {
-                            ipcRenderer.send('main_window-open_ignore_mouse_events')
-                        } else {
-                            ipcRenderer.send('main_window-close_ignore_mouse_events')
-                        }
-                    })
                 },
                 methods: {
-                    /**
-                     * debug面板被移入移出事件处理
-                     * @param is
-                     */
-                    debug_info_move: function (is) {
-
-                    },
-                    /**
-                     * 启动一个模型的随机动作
-                     */
-                    mtn_run: function () {
-                        // 播放完成后弹出提示
-                        Utils.msg('准备随机播放动作')
-                        live2d.getModel(0).startRandomMotion("TapBody", 3, function (e) {
-                            Utils.msg('动作播放完成')
-                        })
-                    },
-                    /**
-                     * 下一个模型
-                     */
-                    next_scene: function () {
-                        live2d.nextScene()
-                    },
-                    /**
-                     * 模型大小
-                     */
-                    model_scale: function () {
-                        let num = this.curr_scale;
-                        num += 0.1;
-                        if (num > 3) {
-                            num = 1;
+                    runMotion() {
+                        if (!window.live2d) {
+                            return;
                         }
-                        this.curr_scale = num;
-                        live2d._viewMatrix.scale(num, num)
+                        live2d.getModel(0).startRandomMotion("TapBody", 3);
                     },
-                    /**
-                     * 测试复制能力
-                     */
-                    text_copy: function () {
-                        clipboard.writeText('喵喵喵~', 'selection')
-                        console.log(clipboard.readText('selection'))
-                        Utils.msg('复制成功')
-                    },
-                    danmu: function () {
-                        let dm = function () {
-                            return new Promise(function (resolve) {
-                                if (!window.bulletScreenEngine) {
-                                    if (window.openBSE) {
-                                        window.bulletScreenEngine = new openBSE.BulletScreenEngine(document.getElementById('danmu_div'));
-                                        resolve()
-                                    } else {
-                                        console.log('第一次需要加载弹幕基础库')
-                                        $.getScript('../js/openBSE.all.js', function () {
-                                            window.bulletScreenEngine = new openBSE.BulletScreenEngine(document.getElementById('danmu_div'));
-                                            resolve()
-                                        })
-                                    }
-                                }
-                            })
+                    nextModel() {
+                        if (!window.live2d) {
+                            return;
                         }
-                        dm().then(function () {
-                            // let _startTime = 1;
-                            // for (var i = 0; i < 10; i++) {
-                            //     bulletScreenEngine.addBulletScreen({
-                            //         text: "喵喵喵",
-                            //         startTime: _startTime
-                            //     });
-                            //     _startTime += parseInt(Math.random() * 300);
-                            // }
-                            bulletScreenEngine.addBulletScreen({
-                                text: "喵喵喵",
-                                startTime: 1
-                            });
-                            bulletScreenEngine.play();
-                        })
-
+                        live2d.nextScene();
+                    },
+                    toggleScale() {
+                        if (!window.live2d) {
+                            return;
+                        }
+                        let next = this.curr_scale + 0.1;
+                        if (next > 3) {
+                            next = 0.8;
+                        }
+                        const ratio = next / this.curr_scale;
+                        this.curr_scale = parseFloat(next.toFixed(2));
+                        live2d._viewMatrix.scale(ratio, ratio);
                     }
                 }
-            }
-            // vue的app类，管理整个vue下创建的app的生命周期
-            this.app = Vue.createApp(VueData)
-            // vue的数据代理层，可以通过他快捷更新数据
-            this.v_proxy = this.app.mount('#app')
-            Utils.system_info(this.v_proxy);
+            })
+            this.app = vm;
+            this.v_proxy = vm.mount('#app');
         }
     }
 
     window.app = new Index();
 </script>
-
-<!--<script type="module" src="./live2d/2.0/all.js"></script>-->
 </html>

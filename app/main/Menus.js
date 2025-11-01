@@ -9,45 +9,42 @@ class Menus {
 
         const contextMenu = Menu.buildFromTemplate([
             {
+                label: 'Show / Hide',
+                type: 'normal',
+                click:()=>{
+                    const win = WindowsManager.getMain();
+                    if (!win) {
+                        return;
+                    }
+                    if (win.isVisible()) {
+                        win.hide();
+                    } else {
+                        win.show();
+                    }
+                }
+            },
+            {
+                label: 'Toggle DevTools',
+                type: 'normal',
+                click:()=>{
+                    const win = WindowsManager.getMain();
+                    if (!win) {
+                        return;
+                    }
+                    if (win.webContents.isDevToolsOpened()) {
+                        win.webContents.closeDevTools();
+                    } else {
+                        win.webContents.openDevTools({mode: 'detach', activate: false});
+                    }
+                }
+            },
+            {
                 label: 'Quit',
                 type: 'normal',
                 click:()=>{
                     app.exit()
                 }
             },
-            {
-                label: 'Debug',
-                type: 'normal',
-                click:()=>{
-                    global.WindowsManager.getMain().webContents.openDevTools();
-                }
-            },
-            // {
-            //     label: 'Drag(拖入压缩图片)',
-            //     type: 'normal',
-            //     click:()=>{
-            //         global.drag = main_window.create('drag');
-            //         drag.setContentSize(500,350);
-            //         drag.show()
-            //     }
-            // },
-            {
-                label: 'ChromeHistory(谷歌历史记录)',
-                type: 'normal',
-                click:()=>{
-                    // global.chrome_history_window = global.WindowsManager.create('chrome_history');
-                    // chrome_history_window.show()
-                }
-            },
-            {
-                label: 'manager',
-                type: 'normal',
-                click:()=>{
-                    // global.manager = main_window.create('model_manager');
-                    // manager.show()
-                }
-            },
-
         ])
         // tray.setToolTip('This is my application.')
         // tray.setTitle("\u001b[34m")

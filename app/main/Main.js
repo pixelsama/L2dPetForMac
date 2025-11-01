@@ -6,9 +6,8 @@ class Main {
     constructor() {
         console.log('启动')
         // 启动应用加载越少越好
-        const {app, Notification, globalShortcut} = require('electron')
+        const {app, globalShortcut} = require('electron')
         global.app = app;
-        global.Notification = Notification;
         global.globalShortcut = globalShortcut;
         console.log('当前版本号', app.getVersion())
 
@@ -32,50 +31,8 @@ class Main {
      */
     init_async() {
         setTimeout(function () {
-            // 初始化全局事件监听
-            const ev = require("events");
-            global.events = new ev();
-
-            // 初始化持久化缓存
-            const Store = require('electron-store');
-            global.store = new Store()
-
-            // 加载初始化配置
-            global.store.set({
-                version: global.app.getVersion(),
-                listen_mail: {
-                    on: false,
-                    username: "shibao@litemob.com",
-                    password: "Neko123",
-                    host: "imap.exmail.qq.com",
-                    port: 993,
-                }
-            })
-
-            if (global.store.get('listen_mail.on')) {
-                const {EmailListen} = require("./loads/EmailListen");
-                EmailListen.init();
-                EmailListen.on();
-            }
             const {IpcMainServer} = require("./ipc/IpcMainServer");
             IpcMainServer.on()
-        })
-        setTimeout(function () {
-            const {Server} = require("./Server");
-
-            global.server = new Server();
-            // 加载一个路由
-            server.mapping.push({
-                url: "/look_chrome",
-                handler: function (req, res) {
-                    const urlib = require('url');
-                    var myObj = urlib.parse(req.url, true);
-                    var title = myObj.query.title;
-                    WindowsManager.getMain().webContents.send("show_msg", {'msg': title});
-                    res.end('ok')
-                }
-            })
-            server.on();
         })
 
         setTimeout(function (){
@@ -83,8 +40,8 @@ class Main {
             ioHook.start(false);
             global.ioHook = ioHook;
             ioHook.on('mousemove', (type)=>{
-                if (WindowsManager.getMain()){
-                    WindowsManager.getMain().webContents.send('my_on_drag',{
+                if (global.WindowsManager && global.WindowsManager.getMain()){
+                    global.WindowsManager.getMain().webContents.send('my_on_drag',{
                         screenX:type.x,
                         screenY:type.y
                     })
@@ -113,16 +70,10 @@ class Main {
     start() {
         const {Menus} = require("./Menus");
         Menus.create_menu()
-        // 展示一个notify
-        let obj = new Notification({
-            title: "喵喵喵~",
-            body: "专属live2d系统启动成功~~"
-        })
-        // obj.show();
 
         globalShortcut.register('CommandOrControl+P', () => {
             // WindowsManager.getMain().webContents.send('', {state: 1})
-            let win = WindowsManager.getMain();
+            let win = global.WindowsManager.getMain();
             if (win.isVisible()) {
                 win.hide();
             } else {
@@ -131,10 +82,11 @@ class Main {
         })
         globalShortcut.register('CommandOrControl+O', () => {
             // WindowsManager.getMain().webContents.send('', {state: 1})
-            if (WindowsManager.getMain().webContents.isDevToolsOpened() === true) {
-                WindowsManager.getMain().webContents.closeDevTools();
+            const win = global.WindowsManager.getMain();
+            if (win.webContents.isDevToolsOpened() === true) {
+                win.webContents.closeDevTools();
             } else {
-                WindowsManager.getMain().webContents.openDevTools({mode: 'detach', activate: false});
+                win.webContents.openDevTools({mode: 'detach', activate: false});
             }
         })
     }
@@ -143,4 +95,3 @@ class Main {
 module.exports = {
     Main
 }
-

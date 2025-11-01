@@ -39,7 +39,6 @@ class WindowsManager {
         // 所有工作空间中显示
         mainWindow.setVisibleOnAllWorkspaces(true);
         // mainWindow.setAlwaysOnTop(true)
-        mainWindow.webContents.openDevTools({detach:true});
         let file = 'app/renderer/views/index.html';
         mainWindow.loadFile(file).finally(function () {
             // mainWindow.showInactive()
@@ -53,30 +52,6 @@ class WindowsManager {
      */
     static getMain(){
         return this.#windows['main'];
-    }
-
-    static showAllDevTools() {
-        for (const windowsKey in this.#windows) {
-            /**
-             * @type BrowserWindow
-             */
-            let value = this.#windows[windowsKey];
-            if (value) {
-                value.webContents.openDevTools({mode: 'detach', activate: false});
-            }
-        }
-    }
-
-    static closeAllDevTools() {
-        for (const windowsKey in this.#windows) {
-            /**
-             * @type BrowserWindow
-             */
-            let value = this.#windows[windowsKey];
-            if (value) {
-                value.webContents.closeDevTools();
-            }
-        }
     }
 }
 
