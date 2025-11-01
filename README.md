@@ -28,6 +28,13 @@
 4. Live2D Cubism Core version: 4.1.0
 
 
+## 当前状态
+
+- 仅保留最基础的桌宠展示能力：Live2D 模型加载、动作播放、换模与缩放。
+- 所有原邮件、弹幕、Chrome 历史等拓展功能已移除，默认不再依赖本地服务或数据库。
+- 全局鼠标联动改为可选：`iohook` 可在本地编译成功时开启，失败将自动降级为普通模式。
+- macOS Panel 原生插件不再强制依赖，使用 Electron 自带 `BrowserWindow` 实现置顶与透明效果。
+
 ## 主要功能
 
 1. 窗口置顶与透明无边框展示
@@ -39,15 +46,39 @@
 
 ### 本项目食用方法
 
-> 开发版
+> 开发环境准备
 
-为了方便后面 `electronjs`
+1. 在项目根目录执行一次依赖安装，跳过原生模块编译：
+   ```bash
+   yarn install --mode=skip-build
+   ```
+2. 进入 `live2d` 子工程安装依赖并保持同样配置：
+   ```bash
+   cd live2d
+   yarn install --mode=skip-build
+   ```
+3. 首次或更新后需要重新打包 Live2D bundle：
+   ```bash
+   NODE_OPTIONS=--openssl-legacy-provider yarn run build
+   ```
+   > 若已在 `live2d/dist/bundle.js` 中生成过，可按需跳过这一步。
 
-0. 分别进入 `panel` | `live2d` | 还有根目录 `/` 运行 `yarn` 初始化构建一下，3个缺一不可
+> 运行桌宠
 
-1. 启动 `electronjs` 命令：`yarn ; yarn run start` 正常的话这时桌面应该有模型被显示了
-2. 启动 `live2d` 热更新 命令：`cd live2d ; yarn ; yarn run start` 这一步是为了开启热更新，方便修改
-3. 不想开启热更新的话可以在 `cd live2d` 目录下面使用`yarn run build` 此时会更新 `live2d` 目录下的 `dict` 文件夹
+在项目根目录运行：
+```bash
+yarn start
+```
+默认会启动 Electron 窗口，展示 Live2D 桌宠。若终端输出 `iohook unavailable`，说明未启用全局鼠标追踪，可忽略。
+
+> 可选：Live2D 热更新
+
+如果需要实时调试 Live2D TS 源码，可在 `live2d` 目录启动 DevServer：
+```bash
+cd live2d
+NODE_OPTIONS=--openssl-legacy-provider yarn run start
+```
+Webpack 将监听源码并重新输出 `dist/bundle.js`。
 
 > tips
 
@@ -67,6 +98,15 @@
 > 左边是model模型，右边是model3模型 ps:实验性测试,结论是ok的，就是支持live2d可以加载不同版本的模型
 
 ![图片](https://raw.githubusercontent.com/LikeNeko/L2dPetForMac/master/images/2020-07-02-094546.jpeg)
+
+## 打包发布
+
+- macOS DMG：
+  ```bash
+  yarn build-mac
+  ```
+  产物会生成在 `dist/`，需要 Xcode Command Line Tools 与 codesign 相关环境。若需要持续集成，可使用 `yarn build-mac-p` 强制发布。
+- 重新构建 `iohook` 等原生依赖时，可使用 `yarn build_iohook`（需具备匹配的 Node/Electron Headers 环境）。
 
 ## fork前需要技术栈
 
