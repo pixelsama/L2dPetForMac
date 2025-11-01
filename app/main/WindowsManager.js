@@ -8,8 +8,8 @@ class WindowsManager {
      * 初始化主窗口
      */
     static init() {
-        const {PanelWindow} = require('../../panel')
-        const mainWindow = new PanelWindow({
+        const {BrowserWindow} = require('electron')
+        const mainWindow = new BrowserWindow({
             // center: true,
             width: 600,
             height: 600,
@@ -22,6 +22,7 @@ class WindowsManager {
             frame: false,
             transparent: true,
             hasShadow: false,
+            alwaysOnTop: true,
 
             webPreferences: {
                 nodeIntegration: true,// 主线程的node
@@ -37,8 +38,7 @@ class WindowsManager {
         console.log(mainWindow.id, '窗口id')
         // mainWindow.maximize();
         // 所有工作空间中显示
-        mainWindow.setVisibleOnAllWorkspaces(true);
-        // mainWindow.setAlwaysOnTop(true)
+        mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
         let file = 'app/renderer/views/index.html';
         mainWindow.loadFile(file).finally(function () {
             // mainWindow.showInactive()

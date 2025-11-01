@@ -21,7 +21,9 @@ class Main {
 
         app.on('before-quit',function (){
             console.log('退出前准备')
-            global.ioHook.stop();
+            if (global.ioHook) {
+                global.ioHook.stop();
+            }
         })
 
     }
@@ -36,17 +38,21 @@ class Main {
         })
 
         setTimeout(function (){
-            const ioHook = require('iohook');
-            ioHook.start(false);
-            global.ioHook = ioHook;
-            ioHook.on('mousemove', (type)=>{
-                if (global.WindowsManager && global.WindowsManager.getMain()){
-                    global.WindowsManager.getMain().webContents.send('my_on_drag',{
-                        screenX:type.x,
-                        screenY:type.y
-                    })
-                }
-            });
+            try {
+                const ioHook = require('iohook');
+                ioHook.start(false);
+                global.ioHook = ioHook;
+                ioHook.on('mousemove', (type)=>{
+                    if (global.WindowsManager && global.WindowsManager.getMain()){
+                        global.WindowsManager.getMain().webContents.send('my_on_drag',{
+                            screenX:type.x,
+                            screenY:type.y
+                        })
+                    }
+                });
+            } catch (error) {
+                console.warn('iohook unavailable, skipping global mouse tracking', error.message);
+            }
         },1000);
     }
 
